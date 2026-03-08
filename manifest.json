@@ -1,11 +1,11 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
-	"version": "1.0.0",
+	"id": "obsidian-auto-English-punctuation",
+	"name": "Obsidian Auto English Punctuation",
+	"version": "1.0.1",
 	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
+	"description": "自动将中文标点转换为英文标点",
+	"author": "shdmfire",
+	"authorUrl": "https://github.com/shdmfire",
 	"fundingUrl": "https://obsidian.md/pricing",
 	"isDesktopOnly": false
 }
