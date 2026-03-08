@@ -36,11 +36,11 @@ export function sanitizePunctuationMap(input: unknown): Record<string, string> {
   }
 
   const result: Record<string, string> = {};
+  const entries = Object.entries(input as Record<string, unknown>);
 
-  for (const [from, to] of Object.entries(input)) {
+  for (const [from, to] of entries) {
     if (!from) continue;
     if (typeof to !== "string") continue;
-
     result[from] = to;
   }
 
@@ -48,7 +48,7 @@ export function sanitizePunctuationMap(input: unknown): Record<string, string> {
 }
 
 function parsePunctuationMap(text: string): Record<string, string> {
-  const parsed = JSON.parse(text);
+  const parsed = JSON.parse(text) as unknown;
 
   if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
     throw new Error("映射必须是 JSON 对象");
@@ -70,7 +70,9 @@ export class AutoEnglishPunctuationSettingTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    containerEl.createEl("h2", { text: "自动中文标点转英文标点" });
+    new Setting(containerEl)
+      .setName("自动中文标点转英文标点")
+      .setHeading();
     containerEl.createEl("p", {
       text: "使用 JSON 对象配置映射：键是原字符，值是目标字符。支持单字符和多字符，例如 “……” -> “...” 。",
     });
@@ -89,9 +91,7 @@ export class AutoEnglishPunctuationSettingTab extends PluginSettingTab {
         text.setValue(this.draft);
 
         text.inputEl.rows = 16;
-        text.inputEl.cols = 50;
-        text.inputEl.style.width = "100%";
-        text.inputEl.style.fontFamily = "var(--font-monospace)";
+		text.inputEl.addClass("auto-punctuation-setting-textarea");
 
         text.onChange((value) => {
           this.draft = value;
@@ -126,21 +126,5 @@ export class AutoEnglishPunctuationSettingTab extends PluginSettingTab {
           this.display();
         });
       });
-
-    containerEl.createEl("h3", { text: "示例" });
-    containerEl.createEl("pre", {
-      text: `{
-  "，": ",",
-  "。": ".",
-  "！": "!",
-  "？": "?",
-  "；": ";",
-  "：": ":",
-  "（": "(",
-  "）": ")",
-  "……": "...",
-  "——": "--"
-}`,
-    });
   }
 }

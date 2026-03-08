@@ -106,7 +106,7 @@ export default class AutoEnglishPunctuationPlugin extends Plugin {
   }
 
   async loadSettings() {
-    const data = await this.loadData();
+    const data = (await this.loadData()) as Partial<AutoEnglishPunctuationSettings> | null;
 
     this.settings = {
       ...DEFAULT_SETTINGS,
